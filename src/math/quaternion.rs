@@ -1,24 +1,24 @@
 use std::ops::{Add, Sub, Mul};
 
 #[derive(Debug, Copy, Clone)]
-pub(crate) struct Quat {
+pub(crate) struct Quaternion {
     w: f64,
     x: f64,
     y: f64,
     z: f64,
 }
 
-impl Quat {
+impl Quaternion {
     pub(crate) fn new(w: f64, x: f64, y: f64, z: f64) -> Self {
-        Quat { w, x, y, z }
+        Quaternion { w, x, y, z }
     }
 
     pub(crate) fn identity() -> Self {
-        Quat::new(1.0, 0.0, 0.0, 0.0)
+        Quaternion::new(1.0, 0.0, 0.0, 0.0)
     }
 
     pub(crate) fn conjugate(&self) -> Self {
-        Quat::new(self.w, -self.x, -self.y, -self.z)
+        Quaternion::new(self.w, -self.x, -self.y, -self.z)
     }
 
     fn norm(&self) -> f64 {
@@ -34,23 +34,23 @@ impl Quat {
     }
 }
 
-impl Add for Quat {
+impl Add for Quaternion {
     type Output = Self;
 
     fn add(self, other: Self) -> Self {
-        Quat::new(self.w + other.w, self.x + other.x, self.y + other.y, self.z + other.z)
+        Quaternion::new(self.w + other.w, self.x + other.x, self.y + other.y, self.z + other.z)
     }
 }
 
-impl Sub for Quat {
+impl Sub for Quaternion {
     type Output = Self;
 
     fn sub(self, other: Self) -> Self {
-        Quat::new(self.w - other.w, self.x - other.x, self.y - other.y, self.z - other.z)
+        Quaternion::new(self.w - other.w, self.x - other.x, self.y - other.y, self.z - other.z)
     }
 }
 
-impl Mul for Quat {
+impl Mul for Quaternion {
     type Output = Self;
 
     fn mul(self, other: Self) -> Self {
@@ -59,6 +59,6 @@ impl Mul for Quat {
         let y = self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x;
         let z = self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w;
 
-        Quat::new(w, x, y, z)
+        Quaternion::new(w, x, y, z)
     }
 }
