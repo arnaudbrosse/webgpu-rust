@@ -8,47 +8,34 @@ pub(crate) struct Vector3 {
 }
 
 impl Vector3 {
-    pub(crate) fn new(x: f32, y: f32, z: f32) -> Vector3 {
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
         Vector3 { x, y, z }
     }
 
-    fn length(&self) -> f32 {
-        self.squared_length().sqrt()
+    pub fn zero() -> Self {
+        Vector3::new(0.0, 0.0, 0.0)
     }
 
-    fn squared_length(&self) -> f32 {
-        self.x * self.x + self.y * self.y + self.z * self.z
+    pub fn dot(&self, other: &Vector3) -> f32 {
+        self.x * other.x + self.y * other.y + self.z * other.z
     }
-}
 
-impl Add for Vector3 {
-    type Output = Vector3;
-
-    fn add(self, other: Vector3) -> Vector3 {
-        Vector3::new(self.x + other.x, self.y + other.y, self.z + other.z)
+    pub fn cross(&self, other: &Vector3) -> Vector3 {
+        Vector3::new(
+            self.y * other.z - self.z * other.y,
+            self.z * other.x - self.x * other.z,
+            self.x * other.y - self.y * other.x,
+        )
     }
-}
 
-impl Sub for Vector3 {
-    type Output = Vector3;
-
-    fn sub(self, other: Vector3) -> Vector3 {
-        Vector3::new(self.x - other.x, self.y - other.y, self.z - other.z)
+    pub fn normalize(&mut self) {
+        let length = self.length();
+        self.x /= length;
+        self.y /= length;
+        self.z /= length;
     }
-}
 
-impl Mul<f32> for Vector3 {
-    type Output = Vector3;
-
-    fn mul(self, scalar: f32) -> Vector3 {
-        Vector3::new(self.x * scalar, self.y * scalar, self.z * scalar)
-    }
-}
-
-impl Mul<Vector3> for f32 {
-    type Output = Vector3;
-
-    fn mul(self, vector: Vector3) -> Vector3 {
-        Vector3::new(self * vector.x, self * vector.y, self * vector.z)
+    pub fn length(&self) -> f32 {
+        f32::sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
     }
 }

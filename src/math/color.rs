@@ -1,33 +1,28 @@
 pub struct Color {
-    red: u8,
-    green: u8,
-    blue: u8,
-    alpha: u8,
+    pub r: f32,
+    pub g: f32,
+    pub b: f32,
+    pub a: f32,
 }
 
 impl Color {
-    pub fn new(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
-        Color {
-            red,
-            green,
-            blue,
-            alpha,
-        }
+    pub fn new(r: f32, g: f32, b: f32, a: f32) -> Self {
+        Color { r, g, b, a }
     }
 
-    pub fn from_hex(hex: &str) -> Option<Self> {
-        if hex.len() != 7 || !hex.starts_with('#') {
-            return None;
-        }
+    pub fn from_hex(hex: &str) -> Result<Self, std::num::ParseFloatError> {
+        let hex = hex.trim_start_matches('#');
 
-        let red = u8::from_str_radix(&hex[1..3], 16).ok()?;
-        let green = u8::from_str_radix(&hex[3..5], 16).ok()?;
-        let blue = u8::from_str_radix(&hex[5..7], 16).ok()?;
+        let r = u8::from_str_radix(&hex[0..2], 16)? as f32 / 255.0;
+        let g = u8::from_str_radix(&hex[2..4], 16)? as f32 / 255.0;
+        let b = u8::from_str_radix(&hex[4..6], 16)? as f32 / 255.0;
 
-        Some(Color::new(red, green, blue, 255))
-    }
+        let a = if hex.len() >= 8 {
+            u8::from_str_radix(&hex[6..8], 16)? as f32 / 255.0
+        } else {
+            1.0
+        };
 
-    pub fn to_hex(&self) -> String {
-        format!("#{:02X}{:02X}{:02X}", self.red, self.green, self.blue)
+        Ok(Color::new(r, g, b, a))
     }
 }
