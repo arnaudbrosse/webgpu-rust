@@ -1,10 +1,14 @@
-mod core;
-mod math;
+use wasm_bindgen::prelude::*;
 
-use math::color::Color;
-use math::matrix4::Matrix4;
-use math::quaternion::Quaternion;
-use math::vector3::Vector3;
+#[wasm_bindgen]
+extern "C" {
+    fn alert(s: &str);
+}
+
+#[wasm_bindgen]
+pub fn greet(name: &str) {
+    alert(&format!("Hello, {}!", name));
+}
 
 fn main() {
     println!("Start");

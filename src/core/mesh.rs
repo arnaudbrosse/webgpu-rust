@@ -10,4 +10,8 @@ impl Mesh {
     pub fn new(geometry: Geometry, material: Material) -> Self {
         Self { geometry, material }
     }
+
+    pub fn draw(&self, device: &wgpu::Device, encoder: &mut wgpu::CommandEncoder) {
+        self.geometry.draw(device, encoder, &self.material)
+    }
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My WebGPU Project</title>
+</head>
+<body>
+<script src="./static/wasm.js"></script>
+<script>
+    const rustModule = import("./static/wasm_bg.wasm");
+    rustModule.then(module => {
+        module.greet("WebGPU");
+    });
+</script>
+</body>
+</html>
